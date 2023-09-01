@@ -35,18 +35,10 @@ def generate_launch_description():
                             {'autostart': True},
                             {'node_names': lifecycle_nodes}])
 
-
-
-    # Update map file path in params file
-    params_file = os.path.join(pkg_share, 'params/nav2_params.yaml')
-
-
     # Start navigation
     nav2_bringup_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/navigation_launch.py')),
-        launch_arguments={'use_sim_time': 'False', 'params_file': params_file}.items(),
     )
-
 
     return LaunchDescription(
         [
