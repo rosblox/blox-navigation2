@@ -1,4 +1,4 @@
-image: turtlebot3_world_empty.pgm
+image: turtlebot3_world.pgm
 resolution: 0.10000
 origin: [-20.000000, -20.000000, 0.000000]
 negate: 0

@@ -15,21 +15,6 @@ from nav2_common.launch import RewrittenYaml
 def generate_launch_description():
     pkg_share = get_package_share_directory('nav2_bringup')
 
-
-    # Update map file path in params file
-    params_file = os.path.join(pkg_share, 'config/nav2_params.yaml')
-
-    param_substitutions = {
-        'yaml_filename': os.path.join(pkg_share, 'world/turtlebot3_world.yaml')
-        }
-
-    configured_params = RewrittenYaml(
-        source_file=params_file,
-        root_key='',
-        param_rewrites=param_substitutions,
-        convert_types=True)
-
-
     # Start map server
     lifecycle_nodes = ['map_server']
     map_server_node = Node(
@@ -37,7 +22,7 @@ def generate_launch_description():
                 executable='map_server',
                 name='map_server',
                 output='screen',
-                parameters=[configured_params],
+                parameters=[{'yaml_filename': os.path.join(pkg_share, 'maps/turtlebot3_world.yaml')}],
                 arguments=['--ros-args', '--log-level', 'info'])
 
     map_server_lifecycle_node = Node(
@@ -50,12 +35,15 @@ def generate_launch_description():
                             {'autostart': True},
                             {'node_names': lifecycle_nodes}])
 
-    pkg_nav2_bringup = get_package_share_directory('nav2_bringup')
+
+
+    # Update map file path in params file
+    params_file = os.path.join(pkg_share, 'params/nav2_params.yaml')
 
 
     # Start navigation
     nav2_bringup_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_nav2_bringup, 'launch/navigation_launch.py')),
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/navigation_launch.py')),
         launch_arguments={'use_sim_time': 'False', 'params_file': params_file}.items(),
     )
 
