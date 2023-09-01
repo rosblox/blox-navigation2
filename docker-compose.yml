@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    network_mode: "host"
+    restart: always
+
+  rosblox-studio:
+    image: ghcr.io/rosblox/studio:latest
+    volumes:
+      - ./studio/layout.json:/src/layout.json
+    ports:
+      - 8080:8080
+    restart: always
+
+  ros-rosbridge-suite:
+    image: ghcr.io/rosblox/ros-rosbridge-suite:humble
+    ports:
+      - 9090:9090
+    restart: always
+    command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
+
+  ros-navigation2:
+    image: ghcr.io/rosblox/ros-navigation2:humble
+    volumes:
+      - ./nav2_bringup/navigation.launch.py:/opt/ros/humble/share/nav2_bringup/launch/nav2_bringup_launch.py
+    restart: always
+    network_mode: "host"
+    ipc: host
+    pid: host
+    environment:
+      - UID=1000
+      - GID=1000
+    command: "su - ros /run.sh"
