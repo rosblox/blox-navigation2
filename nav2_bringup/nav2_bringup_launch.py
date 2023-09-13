@@ -17,10 +17,10 @@ def generate_launch_description():
 
 
     # Update map file path in params file
-    params_file = os.path.join(pkg_share, 'config/nav2_params.yaml')
+    params_file = os.path.join(pkg_share, 'params/nav2_params.yaml')
 
     param_substitutions = {
-        'yaml_filename': os.path.join(pkg_share, 'world/turtlebot3_world.yaml')
+        'yaml_filename': os.path.join(pkg_share, 'maps/goat_world.yaml')
         }
 
     configured_params = RewrittenYaml(
@@ -46,7 +46,7 @@ def generate_launch_description():
                 name='lifecycle_manager_localization',
                 output='screen',
                 arguments=['--ros-args', '--log-level', 'info'],
-                parameters=[{'use_sim_time': True},
+                parameters=[{'use_sim_time': False},
                             {'autostart': True},
                             {'node_names': lifecycle_nodes}])
 
@@ -56,7 +56,7 @@ def generate_launch_description():
     # Start navigation
     nav2_bringup_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_nav2_bringup, 'launch/navigation_launch.py')),
-        launch_arguments={'use_sim_time': 'True', 'params_file': params_file}.items(),
+        launch_arguments={'params_file': params_file}.items(),
     )
 
 
