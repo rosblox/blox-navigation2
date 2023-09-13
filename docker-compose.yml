@@ -25,10 +25,10 @@ services:
 
   ros-navigation2:
     image: ghcr.io/rosblox/ros-navigation2:humble
-    volumes:
-      - ./nav2_bringup/navigation.launch.py:/opt/ros/humble/share/nav2_bringup/launch/nav2_bringup_launch.py
-      - ./nav2_bringup/turtlebot3_world.yaml:/opt/ros/humble/share/nav2_bringup/maps/turtlebot3_world.yaml
-      - ./nav2_bringup/turtlebot3_world.pgm:/opt/ros/humble/share/nav2_bringup/maps/turtlebot3_world.pgm
+    # volumes:
+      # - ./nav2_bringup/navigation.launch.py:/opt/ros/humble/share/nav2_bringup/launch/nav2_bringup_launch.py
+      # - ./nav2_bringup/turtlebot3_world.yaml:/opt/ros/humble/share/nav2_bringup/maps/turtlebot3_world.yaml
+      # - ./nav2_bringup/turtlebot3_world.pgm:/opt/ros/humble/share/nav2_bringup/maps/turtlebot3_world.pgm
     restart: always
     network_mode: "host"
     ipc: host
@@ -36,4 +36,4 @@ services:
     environment:
       - UID=1000
       - GID=1000
-    command: "su - ros /run.sh"
+    command: ros2 launch nav2_bringup navigation.launch.py
