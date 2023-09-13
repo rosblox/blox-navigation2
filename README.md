@@ -6,4 +6,4 @@ Note, the BloX Navigation2 doesn't start a localization system.
 
 ## Data
 
-The Navigation2 stack is a complex set of algorithms and transmits many messages. Visualize its entire output either in rviz2 or Foxglove Studio.
+The Navigation2 stack is a collection of algorithms which commmunicate through various message types, e.g. costmaps or paths. Visualize its output either in rviz2 or Foxglove Studio.
